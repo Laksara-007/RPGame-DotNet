@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using backend.Dtos.Character;
+
 using backend.Services.CharacterService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,22 +23,25 @@ namespace backend.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        public ActionResult<List<Character>> Get()
+
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> Get()
         {
-            return Ok(_CharacterService.GetAllCharacters());
-        }
+            return Ok(await _CharacterService.GetAllCharacters());
+
 
         [HttpGet("{id}")]
 
-        public ActionResult<Character> GetSingle(int id)
+
+        public async Task<ActionResult<ServiceResponse<GetCharacterDto>>> GetSingle(int id)
         {
-            return Ok(_CharacterService.GetCharacterById(id));
+            return Ok(await _CharacterService.GetCharacterById(id));
         }
 
         [HttpPost]
-        public ActionResult<List<Character>> AddCharacter(Character newCharacter)
+        public async Task<ActionResult<ServiceResponse<List<GetCharacterDto>>>> AddCharacter(AddCharacterDto newCharacter)
         {
-            return Ok(_CharacterService.AddCharacter(newCharacter));
+            return Ok(await _CharacterService.AddCharacter(newCharacter));
+
         }
 
     }
