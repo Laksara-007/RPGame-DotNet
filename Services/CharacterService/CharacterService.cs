@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using AutoMapper;
 using backend.Dtos.Character;
+
 
 namespace backend.Services.CharacterService
 {
@@ -11,6 +13,7 @@ namespace backend.Services.CharacterService
     {
         private static List<Character> characters = new List<Character>{
             new Character(),
+
             new Character { Name = "sam" , Id = 1}
         };
         private readonly IMapper _mapper;
