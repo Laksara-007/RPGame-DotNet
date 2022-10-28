@@ -3,51 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using AutoMapper;
-using backend.Dtos.Character;
-
-
 namespace backend.Services.CharacterService
 {
     public class CharacterService : ICharacterService
     {
         private static List<Character> characters = new List<Character>{
             new Character(),
-
-            new Character { Name = "sam" , Id = 1}
+            new Character { Name = "sam" }
         };
-        private readonly IMapper _mapper;
-
-        public CharacterService(IMapper mapper)
+        public List<Character> AddCharacter(Character newCharacter)
         {
-            _mapper = mapper;
+            characters.Add(newCharacter);
+            return characters;
         }
 
-        public async Task<ServiceResponse<List<GetCharacterDto>>> AddCharacter(AddCharacterDto newCharacter)
+        public List<Character> GetAllCharacters()
         {
-            var ServiceResponse = new ServiceResponse<List<GetCharacterDto>>();
-            Character character = _mapper.Map<Character>(newCharacter);
-            character.Id = characters.Max(C => C.Id) + 1;
-            characters.Add(character);
-            ServiceResponse.Data = characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
-            return ServiceResponse;
+            return characters;
         }
 
-
-        public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
+        public Character GetCharacterById(int id)
         {
-            return new ServiceResponse<List<GetCharacterDto>> { Data = characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList() };
+            return characters.FirstOrDefault(c => c.Id == id);
         }
-
-        public async Task<ServiceResponse<GetCharacterDto>> GetCharacterById(int id)
-        {
-            var ServiceResponse = new ServiceResponse<GetCharacterDto>();
-            var character = characters.FirstOrDefault(c => c.Id == id);
-            ServiceResponse.Data = _mapper.Map<GetCharacterDto>(character);
-            return ServiceResponse;
-
-        }
-
-
     }
 }
